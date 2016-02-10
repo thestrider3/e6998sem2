@@ -6,15 +6,15 @@ var path = require("path"); // Path name of the files
 var app = express();
 var server = express.Router();
 server.get('/', function(req, res) {
-  res.sendfile(path.join(__dirname + '/home.html'));
+  res.sendfile(path.join(__dirname + '/home.html')); //redirecting to home.html page
 });
 app.use('/', server);
 var http = require('http').Server(app);
-var server = http.listen(process.env.PORT || 5000, function(){
-  console.log('App listening at http://%s:%s', server.address().address, server.address().port);
+var server = http.listen(process.env.PORT || 5000, function(){      //listening at port 5000
+  console.log(' app listening at http://%s:%s', server.address().address, server.address().port);
 });
 
-// create web socket when a user connects to the server
+// websocket connection
 var io = require('socket.io').listen(server);
 io.on('connection', function(socket){
   console.log('1 user connected');
@@ -25,16 +25,16 @@ io.on('connection', function(socket){
 
 // create twitter client for streaming tweets
 var tweetClient = new Twitter({
-  consumer_key: '7d1U5FV64wSvSp09oSvV4xHRH',
-  consumer_secret: 'SPg9cUgG70c5VtDHTOhZ0dMxFALg5l7oP1R9CIIRRuGSrOjUCy',
-  access_token_key: '137228501-kSbbq3aiN1IbA8raQXhMOeA7hI1xkKe8fjSgvNnj',
-  access_token_secret: '68DTqobUOtgpRFzpzxiy3HhUG7aEpPgjMX2CPHqExhQF5'
+  consumer_key: '####################',
+  consumer_secret: '######################################',
+  access_token_key: '##############################################',
+  access_token_secret: '#########################################################'
 });
 
 
-// process a tweet raw data and extract relevant information
+//Extracting information from the tweet
 var processTweet = function(rawTweet) {
-    if(rawTweet.user != null && rawTweet.user.name != null 
+    if(rawTweet.user != null && rawTweet.user.name != null // taking those tweets which have user as well as text field
         && rawTweet.text!= null) {
             var tweet = "<div>";
             tweet += "Username: "+"<br>" + rawTweet.user.name + "<br>";
@@ -45,8 +45,7 @@ var processTweet = function(rawTweet) {
         }
 };
 
-// stream tweets of the entire world, process them and 
-// publich it to all the web sockets connected to the server.
+//taking tweets from entire world and passing it to processTweet to use websocket and emit to the browser
 tweetClient.stream('statuses/filter', {'locations':'-180,-90,180,90'},function(stream){
     stream.on('data', function(data) {
         processTweet(data);
