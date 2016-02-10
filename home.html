@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>Assignment - 1</title>
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
+    </head>
+    
+    <script>
+        var socket = io();
+        socket.on('tweet', function(tweet){
+            console.log(tweet);
+            $("#tweets").prepend('<div class="well">' + tweet + '</div>');
+        });
+    </script>
+    
+    <body>
+        
+            
+                        <h2> COMS E6998 - Assignment 1 </h2>
+                        <h3> Tulika Bhatt(tb2658)</h3>
+                        <br>
+                        
+                   
+               
+            
+                        <h3>Tweets</h3>
+                        <div id='tweets'></div>
+                
+        
+    </body>
+</html>
+
